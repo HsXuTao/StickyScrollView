@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <item name="id_stickynavlayout_topview" type="id"/>
+    <item name="id_stickynavlayout_bottomview" type="id"/>
+    <item name="id_stickynavlayout_viewpager" type="id"/>
+    <item name="id_stickynavlayout_indicator" type="id"/>
+    <item name="id_stickynavlayout_innerscrollview" type="id"/>
+    <declare-styleable name="StickyScrollView">
+        <attr name="stuckShadowHeight" format="dimension"/>
+        <attr name="stuckShadowDrawable" format="reference"/>
+        <attr name="mode" format="integer"/>
+    </declare-styleable>
+    <integer name="integer_sticky_normalMode">0</integer>
+    <integer name="integer_sticky_arrayMode">1</integer>
+</resources>

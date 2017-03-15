@@ -1,5 +1,6 @@
 package com.taoxu.library;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
@@ -309,18 +310,18 @@ public class StickyScrollView extends ScrollView {
         }
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public void drawArrayLayout(Canvas canvas) {
         int index = stickyViews.indexOf(currentlyStickingView);
         for (int i = 0; i <= index; i++) {
             View currentItem = stickyViews.get(i);
             if (currentItem != null) {
                 canvas.save();
+//                canvas.saveLayerAlpha(new RectF(canvas.getClipBounds()), (int) (currentItem.getAlpha() * 255f));
                 canvas.translate(getPaddingLeft() + stickyViewLeftOffset, getScrollY() + (clippingToPadding ? getPaddingTop() : 0) + sumList.get(i));
-
                 canvas.clipRect(0, (clippingToPadding ? 0 : 0),
                         getWidth(),
                         currentItem.getHeight() + mShadowHeight + 1);
-
                 if (mShadowDrawable != null) {
                     int left = 0;
                     int right = currentItem.getWidth();
@@ -540,6 +541,8 @@ public class StickyScrollView extends ScrollView {
         }
     }
 
+    private List<Float> alphaList = new ArrayList<>();
+
     private void startStickingView(View viewThatShouldStick) {
         // 当一个View显示sticky的时候，让它不被看到，防止和一些alpha值比较低的时候引起的界面显示重叠问题
         final int stickyViewsSize = stickyViews.size();
@@ -547,7 +550,7 @@ public class StickyScrollView extends ScrollView {
             if (viewThatShouldStick.equals(stickyViews.get(i))) {
                 stickyViews.get(i).setAlpha(0);
             } else {
-                stickyViews.get(i).setAlpha(1);
+                stickyViews.get(i).setAlpha(alphaList.get(i));
             }
         }
         currentlyStickingView = viewThatShouldStick;
@@ -557,10 +560,14 @@ public class StickyScrollView extends ScrollView {
         if (((String) currentlyStickingView.getTag()).contains(FLAG_NONCONSTANT)) {
             post(invalidataRunnable);
         }
-
     }
 
+
     private void stopStickingCurrentlyStickingView() {
+        final int stickyViewsSize = stickyViews.size();
+        for (int i = 0; i < stickyViewsSize; i++) {
+            stickyViews.get(i).setAlpha(alphaList.get(i));
+        }
         if (getStringTagForView(currentlyStickingView).contains(FLAG_HASTRANSPARANCY)) {
             showView(currentlyStickingView);
         }
@@ -592,6 +599,7 @@ public class StickyScrollView extends ScrollView {
                 String tag = getStringTagForView(vg.getChildAt(i));
                 if (tag != null && tag.contains(STICKY_TAG)) {
                     stickyViews.add(vg.getChildAt(i));
+                    alphaList.add(vg.getChildAt(i).getAlpha());
                 } else if (vg.getChildAt(i) instanceof ViewGroup) {
                     findStickyViews(vg.getChildAt(i));
                 }
@@ -600,6 +608,7 @@ public class StickyScrollView extends ScrollView {
             String tag = (String) v.getTag();
             if (tag != null && tag.contains(STICKY_TAG)) {
                 stickyViews.add(v);
+                alphaList.add(v.getAlpha());
             }
         }
     }
@@ -617,7 +626,7 @@ public class StickyScrollView extends ScrollView {
 
     private void showView(View v) {
         if (Build.VERSION.SDK_INT >= 11) {
-            v.setAlpha(1);
+            v.setAlpha(currentlyStickingView.getAlpha());
         } else {
             AlphaAnimation anim = new AlphaAnimation(0, 1);
             anim.setDuration(0);

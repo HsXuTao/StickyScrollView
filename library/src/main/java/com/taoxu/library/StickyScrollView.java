@@ -1,11 +1,11 @@
 package com.taoxu.library;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.support.annotation.IntDef;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -13,6 +13,8 @@ import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.widget.ScrollView;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,12 +46,12 @@ public class StickyScrollView extends ScrollView {
     /**
      * 正常排列模式
      */
-    private static final int NORMAL_MODE = 0;
+    public static final int NORMAL_MODE = 0;
 
     /**
      * 队列排列模式
      */
-    private static final int ARRAY_MODE = 1;
+    public static final int ARRAY_MODE = 1;
 
     /**
      * StickyScrollView的默认模式
@@ -76,6 +78,16 @@ public class StickyScrollView extends ScrollView {
 
     public StickyScrollView(Context context, AttributeSet attrs) {
         this(context, attrs, android.R.attr.scrollViewStyle);
+    }
+
+
+    @Retention(RetentionPolicy.SOURCE)
+    @IntDef({NORMAL_MODE, ARRAY_MODE})
+    public @interface Type {
+    }
+
+    public void setMODE(@Type int MODE) {
+        this.MODE = MODE;
     }
 
     /**
@@ -310,7 +322,6 @@ public class StickyScrollView extends ScrollView {
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public void drawArrayLayout(Canvas canvas) {
         int index = stickyViews.indexOf(currentlyStickingView);
         for (int i = 0; i <= index; i++) {
@@ -318,8 +329,9 @@ public class StickyScrollView extends ScrollView {
             if (currentItem != null) {
                 canvas.save();
 //                canvas.saveLayerAlpha(new RectF(canvas.getClipBounds()), (int) (currentItem.getAlpha() * 255f));
-                canvas.translate(getPaddingLeft() + stickyViewLeftOffset, getScrollY() + (clippingToPadding ? getPaddingTop() : 0) + sumList.get(i));
-                canvas.clipRect(0, (clippingToPadding ? 0 : 0),
+                canvas.translate(getPaddingLeft() + stickyViewLeftOffset, getScrollY() + stickyViewTopOffset + (clippingToPadding ? getPaddingTop() : 0) + sumList.get(i));
+
+                canvas.clipRect(0, (clippingToPadding ? -stickyViewTopOffset : 0),
                         getWidth(),
                         currentItem.getHeight() + mShadowHeight + 1);
                 if (mShadowDrawable != null) {
@@ -331,7 +343,7 @@ public class StickyScrollView extends ScrollView {
                     mShadowDrawable.draw(canvas);
                 }
 
-                canvas.clipRect(0, (clippingToPadding ? 0 : 0), getWidth(), currentItem.getHeight());
+                canvas.clipRect(0, (clippingToPadding ? -stickyViewTopOffset : 0), getWidth(), currentItem.getHeight());
                 currentItem.draw(canvas);
                 canvas.restore();
             }

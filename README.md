@@ -13,6 +13,7 @@ StickyScrollView 是一个让ScrollView同样支持浮动悬停的控件(该控�
 
 如何使用：
 1：在你根目录里的build.gradle添加如下代码
+
 allprojects {
 		repositories {
 			...
@@ -22,12 +23,12 @@ allprojects {
 
 
 2：在你的工程里，加入
+
 dependencies {
 	  compile 'com.github.HsXuTao:StickyScrollView:V1.1'
 }
 
 3：将您的ScrollView用StickyScrollView替换：
-例：
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="match_parent" android:layout_width="match_parent"

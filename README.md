@@ -39,7 +39,6 @@ dependencies {
 
 <StickyScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    
     android:layout_height="match_parent" android:layout_width="match_parent"
     android:id="@+id/sticky_scroll"
     app:mode="@integer/integer_sticky_arrayMode">

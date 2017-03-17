@@ -28,14 +28,16 @@ dependencies {
 
 3：将您的ScrollView用StickyScrollView替换：
 例：
+
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="match_parent" android:layout_width="match_parent"
     >
     <!-- scroll view child goes here -->
 </ScrollView>
-替换成
-<StickyScrollView xmlns:android="http://schemas.android.com/apk/res/android"
 
+替换成
+
+<StickyScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     
     android:layout_height="match_parent" android:layout_width="match_parent"
@@ -46,6 +48,7 @@ dependencies {
 
 
 4：然后将View添加一个值为sticky的tag：
+
 <StickyScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/sticky_scroll"

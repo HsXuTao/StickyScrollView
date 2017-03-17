@@ -2,10 +2,10 @@
 <com.taoxu.library.StickyScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/scrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/scrollView"
-    app:mode="@integer/integer_sticky_arrayMode"
+    app:mode="@integer/integer_sticky_normalMode"
     >
 
     <LinearLayout
@@ -27,6 +27,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:alpha="0.5"
                 android:background="#440000"
                 android:padding="10dp"
                 android:tag="sticky"

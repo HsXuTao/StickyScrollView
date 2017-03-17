@@ -3,6 +3,7 @@ package com.taoxu.library;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
+import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.IntDef;
@@ -294,7 +295,10 @@ public class StickyScrollView extends ScrollView {
 
     private void drawNormalMode(Canvas canvas) {
         if (currentlyStickingView != null) {
-            canvas.save();
+//            canvas.save();
+            RectF bounds = new RectF(canvas.getClipBounds());
+            canvas.saveLayerAlpha(bounds.left, bounds.top, bounds.right, bounds.bottom, (int) (Math.min(255, Math.max(0, alphaList.get(stickyViews.indexOf(currentlyStickingView)) * 255f))), Canvas.ALL_SAVE_FLAG);
+
             canvas.translate(getPaddingLeft() + stickyViewLeftOffset, getScrollY() + stickyViewTopOffset + (clippingToPadding ? getPaddingTop() : 0));
 
             canvas.clipRect(0, (clippingToPadding ? -stickyViewTopOffset : 0),
@@ -327,8 +331,10 @@ public class StickyScrollView extends ScrollView {
         for (int i = 0; i <= index; i++) {
             View currentItem = stickyViews.get(i);
             if (currentItem != null) {
-                canvas.save();
-//                canvas.saveLayerAlpha(new RectF(canvas.getClipBounds()), (int) (currentItem.getAlpha() * 255f));
+//                canvas.save();
+                RectF bounds = new RectF(canvas.getClipBounds());
+                canvas.saveLayerAlpha(bounds.left, bounds.top, bounds.right, bounds.bottom, (int) (Math.min(255, Math.max(0, alphaList.get(i) * 255f))), Canvas.ALL_SAVE_FLAG);
+
                 canvas.translate(getPaddingLeft() + stickyViewLeftOffset, getScrollY() + stickyViewTopOffset + (clippingToPadding ? getPaddingTop() : 0) + sumList.get(i));
 
                 canvas.clipRect(0, (clippingToPadding ? -stickyViewTopOffset : 0),
@@ -346,6 +352,7 @@ public class StickyScrollView extends ScrollView {
                 canvas.clipRect(0, (clippingToPadding ? -stickyViewTopOffset : 0), getWidth(), currentItem.getHeight());
                 currentItem.draw(canvas);
                 canvas.restore();
+
             }
         }
     }

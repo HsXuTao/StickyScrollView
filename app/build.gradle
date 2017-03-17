@@ -8,8 +8,8 @@ android {
         applicationId "com.taoxu.stickyscrollview"
         minSdkVersion 15
         targetSdkVersion 24
-        versionCode 2
-        versionName "1.1"
+        versionCode rootProject.prodVersionCode
+        versionName rootProject.prodVersionName
     }
     buildTypes {
         release {

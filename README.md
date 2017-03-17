@@ -4,25 +4,32 @@ StickyScrollView 是一个让ScrollView同样支持浮动悬停的控件(该控�
 </h4></br>
 
 
-<h3>这个库修复了emilsjolander/StickyScrollViewItems里，让TabLayout悬浮以及其他附带动画效果
+<h5>这个库修复了emilsjolander/StickyScrollViewItems里，让TabLayout悬浮以及其他附带动画效果
 的View悬浮产生的动画不流畅的问题（默认3秒以内，若是动画时间过长，请自行调用setRunnableRecycleT
-ime方法设定自动刷新时间），并且还提供了列表形式的Sticky显示。</h3></br></br>
+ime方法设定自动刷新时间），并且还提供了列表形式的Sticky显示。</h5></br></br>
 
-<h3>工程默认显示是列表形式的，可以在xml中指定  javaapp:mode="@integer/integer_sticky_arrayMode"（列表模式），和app:mode="@integer/integer_sticky_normalMode"（普通模式）（默认）的样式。
-或者可以在代码中，调用setMode方法来设置样式。
+<h5>工程默认显示是列表形式的，可以在xml中指定  
+```java 
+app:mode="@integer/integer_sticky_arrayMode"（列表模式）
+```
+和
+```java 
+app:mode="@integer/integer_sticky_normalMode"（普通模式）（默认）
+```
+的样式。或者可以在代码中，调用setMode方法来设置样式。</h5></br></br>
 
-
+<h5>
 还提供了一个滑动事件监听setOnScrollListener，可以监听ScrollView的滑动事件
-</h3></br>
+</h5></br>
 
 如何使用：
 1：在你根目录里的build.gradle添加如下代码
 ```java
 allprojects {
     repositories {
-		...
-		maven { url 'https://jitpack.io' }
-	}
+        ...
+        maven { url 'https://jitpack.io' }
+    }
 }
 ```
 
@@ -30,7 +37,7 @@ allprojects {
 2：在你的工程里，加入
 ```java
 dependencies {
-	  compile 'com.github.HsXuTao:StickyScrollView:V1.0.3'
+    compile 'com.github.HsXuTao:StickyScrollView:V1.0.3'
 }
 ```
 

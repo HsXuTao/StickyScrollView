@@ -254,7 +254,7 @@ public class StickyScrollView extends ScrollView {
             // 防止一直循环浪费内存
             if (time < mRecycleTime) {
                 getHandler().removeCallbacks(this);
-                postDelayed(this, 16);
+                getHandler().postDelayed(this, 16);
                 invalidate();
                 time = time + 16;
             } else {

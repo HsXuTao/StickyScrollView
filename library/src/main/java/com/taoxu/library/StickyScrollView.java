@@ -253,6 +253,7 @@ public class StickyScrollView extends ScrollView {
         public void run() {
             // 防止一直循环浪费内存
             if (time < mRecycleTime) {
+                getHandler().removeCallbacks(this);
                 postDelayed(this, 16);
                 invalidate();
                 time = time + 16;
@@ -277,10 +278,11 @@ public class StickyScrollView extends ScrollView {
         super.scrollTo(x, y);
         upDateView();
     }
+
     /**
-     *  这里是为了保证一些Sticky的View里包含动画或者某些特效的情况下,特效和动画还能一定程度上保证正常
+     * 这里是为了保证一些Sticky的View里包含动画或者某些特效的情况下,特效和动画还能一定程度上保证正常
      */
-    private void upDateView(){
+    private void upDateView() {
 //        if (runnable != null) {
 //            removeCallbacks(runnable);
 //            runnable = null;
@@ -288,9 +290,9 @@ public class StickyScrollView extends ScrollView {
 //        runnable = new StickyRunnable();
 //        postDelayed(runnable, 16);
 
-        if(runnable==null){
+        if (runnable == null) {
             runnable = new StickyRunnable();
-        }else{
+        } else {
             runnable.time = 0;
         }
         runnable.run();

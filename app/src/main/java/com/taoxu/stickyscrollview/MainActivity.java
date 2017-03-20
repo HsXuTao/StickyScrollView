@@ -1,5 +1,6 @@
 package com.taoxu.stickyscrollview;
 
+import android.support.design.widget.TabLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -12,5 +13,18 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         StickyScrollView scrollView = (StickyScrollView) findViewById(R.id.scrollView);
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabLayout);
+        TabLayout.Tab tab =tabLayout.newTab();
+        tab.setText("标签第一个");
+        tabLayout.addTab(tab);
+        TabLayout.Tab tab2 =tabLayout.newTab();
+        tab2.setText("标签第二个");
+        tabLayout.addTab(tab2);
+        TabLayout.Tab tab3 =tabLayout.newTab();
+        tab3.setText("标签第三个");
+        tabLayout.addTab(tab3);
+        TabLayout.Tab tab4 =tabLayout.newTab();
+        tab4.setText("标签第四个");
+        tabLayout.addTab(tab4);
     }
 }

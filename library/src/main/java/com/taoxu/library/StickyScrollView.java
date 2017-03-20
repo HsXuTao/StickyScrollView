@@ -112,6 +112,13 @@ public class StickyScrollView extends ScrollView {
         }
     };
 
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        upDateView();
+        return super.onInterceptTouchEvent(ev);
+    }
+
+
     public StickyScrollView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         setup();
@@ -237,23 +244,23 @@ public class StickyScrollView extends ScrollView {
         findStickyViews(child);
     }
 
-    Runnable runnable;
+    StickyRunnable runnable;
     int mRecycleTime = 3000;
 
     private class StickyRunnable implements Runnable {
-        int i = 0;
-
+        int time = 0;
         @Override
         public void run() {
             // 防止一直循环浪费内存
-            if (i < mRecycleTime) {
+            if (time < mRecycleTime) {
                 postDelayed(this, 16);
                 invalidate();
-                i = i + 16;
+                time = time + 16;
             } else {
                 return;
             }
         }
+
     }
 
     /**
@@ -268,13 +275,25 @@ public class StickyScrollView extends ScrollView {
     @Override
     public void scrollTo(int x, int y) {
         super.scrollTo(x, y);
-        // 这里是为了保证一些Sticky的View里包含动画或者某些特效的情况下,特效和动画还能一定程度上保证正常
-        if (runnable != null) {
-            removeCallbacks(runnable);
-            runnable = null;
+        upDateView();
+    }
+    /**
+     *  这里是为了保证一些Sticky的View里包含动画或者某些特效的情况下,特效和动画还能一定程度上保证正常
+     */
+    private void upDateView(){
+//        if (runnable != null) {
+//            removeCallbacks(runnable);
+//            runnable = null;
+//        }
+//        runnable = new StickyRunnable();
+//        postDelayed(runnable, 16);
+
+        if(runnable==null){
+            runnable = new StickyRunnable();
+        }else{
+            runnable.time = 0;
         }
-        runnable = new StickyRunnable();
-        postDelayed(runnable, 16);
+        runnable.run();
     }
 
     @Override

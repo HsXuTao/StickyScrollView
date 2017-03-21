@@ -1,30 +1,29 @@
 # StickyScrollView
-<h4>相信大家都知道有很多让ListView分组Header浮动悬停的开源控件，比如：StickyListHeaders、pinned-section-listview,而本项目就是要在ScrollView中实现类似的功能。
-StickyScrollView 是一个让ScrollView同样支持浮动悬停的控件(该控件支持android2.2(api level 8)及以上的版本)。
-</h4></br>
+####相信大家都知道有很多让ListView分组Header浮动悬停的开源控件，比如：StickyListHeaders、pinned-section-listview,而本项目就是要在ScrollView中实现类似的功能。StickyScrollView 是一个让ScrollView同样支持浮动悬停的控件(该控件支持android2.2(api level 8)及以上的版本)。
+</br>
 
 
-<h5>这个库修复了emilsjolander/StickyScrollViewItems里，让TabLayout悬浮以及其他附带动画效果
+#####这个库修复了emilsjolander/StickyScrollViewItems里，让TabLayout悬浮以及其他附带动画效果
 的View悬浮产生的动画不流畅的问题（默认3秒以内，若是动画时间过长，请自行调用setRunnableRecycleT
-ime方法设定自动刷新时间），并且还提供了列表形式的Sticky显示。</h5></br></br>
+ime方法设定自动刷新时间），并且还提供了列表形式的Sticky显示。</br></br>
 
-<h5>工程默认显示是列表形式的，可以在xml中指定 </h5>
+#####工程默认显示是列表形式的，可以在xml中指定 
  </br>
 
 app:mode="@integer/integer_sticky_arrayMode"（列表模式）
 
 </br>
-<h5>和</h5>
+#####和
 </br>
 
 app:mode="@integer/integer_sticky_normalMode"（普通模式）（默认）
 
 </br>
-<h5>的样式。或者可以在代码中，调用setMode方法来设置样式。</h5></br></br>
+#####的样式。或者可以在代码中，调用setMode方法来设置样式。</br></br>
 
-<h5>
-还提供了一个滑动事件监听setOnScrollListener，可以监听ScrollView的滑动事件
-</h5></br>
+
+#####还提供了一个滑动事件监听setOnScrollListener，可以监听ScrollView的滑动事件
+</br>
 
 如何使用：
 1：在你根目录里的build.gradle添加如下代码
@@ -41,7 +40,7 @@ allprojects {
 2：在你的工程里，加入
 ```java
 dependencies {
-    compile 'com.github.HsXuTao:StickyScrollView:V1.0.3'
+    compile 'com.github.HsXuTao:StickyScrollView:V1.1.4'
 }
 ```
 

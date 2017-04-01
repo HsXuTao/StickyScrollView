@@ -40,7 +40,7 @@ allprojects {
 2：在你的工程里，加入
 ```java
 dependencies {
-    compile 'com.github.HsXuTao:StickyScrollView:V1.1.4'
+    compile 'com.github.HsXuTao:StickyScrollView:V1.1.5'
 }
 ```
 

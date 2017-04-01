@@ -26,5 +26,11 @@ public class MainActivity extends AppCompatActivity {
         TabLayout.Tab tab4 =tabLayout.newTab();
         tab4.setText("标签第四个");
         tabLayout.addTab(tab4);
+        TabLayout.Tab tab5=tabLayout.newTab();
+        tab5.setText("标签第五个");
+        tabLayout.addTab(tab5);
+        TabLayout.Tab tab6 =tabLayout.newTab();
+        tab6.setText("标签第六个");
+        tabLayout.addTab(tab6);
     }
 }

@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.IntDef;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -121,30 +122,29 @@ public class StickyScrollView extends ScrollView {
 
     public StickyScrollView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        setup();
-
         TypedArray a = context.obtainStyledAttributes(attrs,
                 R.styleable.StickyScrollView, defStyle, 0);
+        try {
+            setup();
+            final float density = context.getResources().getDisplayMetrics().density;
+            int defaultShadowHeightInPix = (int) (DEFAULT_SHADOW_HEIGHT * density + 0.5f);
 
-        final float density = context.getResources().getDisplayMetrics().density;
-        int defaultShadowHeightInPix = (int) (DEFAULT_SHADOW_HEIGHT * density + 0.5f);
+            mShadowHeight = a.getDimensionPixelSize(
+                    R.styleable.StickyScrollView_stuckShadowHeight,
+                    defaultShadowHeightInPix);
 
-        mShadowHeight = a.getDimensionPixelSize(
-                R.styleable.StickyScrollView_stuckShadowHeight,
-                defaultShadowHeightInPix);
+            int shadowDrawableRes = a.getResourceId(
+                    R.styleable.StickyScrollView_stuckShadowDrawable, -1);
 
-        int shadowDrawableRes = a.getResourceId(
-                R.styleable.StickyScrollView_stuckShadowDrawable, -1);
+            if (shadowDrawableRes != -1) {
+                mShadowDrawable = context.getResources().getDrawable(
+                        shadowDrawableRes);
+            }
 
-        if (shadowDrawableRes != -1) {
-            mShadowDrawable = context.getResources().getDrawable(
-                    shadowDrawableRes);
+            MODE = a.getInteger(R.styleable.StickyScrollView_mode, NORMAL_MODE);
+        } finally {
+            a.recycle();
         }
-
-        MODE = a.getInteger(R.styleable.StickyScrollView_mode, NORMAL_MODE);
-
-        a.recycle();
-
     }
 
     /**
@@ -249,6 +249,7 @@ public class StickyScrollView extends ScrollView {
 
     private class StickyRunnable implements Runnable {
         int time = 0;
+
         @Override
         public void run() {
             // 防止一直循环浪费内存
@@ -336,6 +337,9 @@ public class StickyScrollView extends ScrollView {
             }
 
             canvas.clipRect(0, (clippingToPadding ? -stickyViewTopOffset : 0), getWidth(), currentlyStickingView.getHeight());
+            canvas.translate(-currentlyStickingView.getScrollX(), -currentlyStickingView.getScrollY());
+            Drawable background = currentlyStickingView.getBackground();
+            background.draw(canvas);
             if (getStringTagForView(currentlyStickingView).contains(FLAG_HASTRANSPARANCY)) {
                 showView(currentlyStickingView);
                 currentlyStickingView.draw(canvas);
@@ -353,9 +357,9 @@ public class StickyScrollView extends ScrollView {
             View currentItem = stickyViews.get(i);
             if (currentItem != null) {
 //                canvas.save();
+
                 RectF bounds = new RectF(canvas.getClipBounds());
                 canvas.saveLayerAlpha(bounds.left, bounds.top, bounds.right, bounds.bottom, (int) (Math.min(255, Math.max(0, alphaList.get(i) * 255f))), Canvas.ALL_SAVE_FLAG);
-
                 canvas.translate(getPaddingLeft() + stickyViewLeftOffset, getScrollY() + stickyViewTopOffset + (clippingToPadding ? getPaddingTop() : 0) + sumList.get(i));
 
                 canvas.clipRect(0, (clippingToPadding ? -stickyViewTopOffset : 0),
@@ -371,6 +375,9 @@ public class StickyScrollView extends ScrollView {
                 }
 
                 canvas.clipRect(0, (clippingToPadding ? -stickyViewTopOffset : 0), getWidth(), currentItem.getHeight());
+                canvas.translate(-currentItem.getScrollX(), -currentItem.getScrollY());
+                Drawable background = currentItem.getBackground();
+                background.draw(canvas);
                 currentItem.draw(canvas);
                 canvas.restore();
 
@@ -587,7 +594,7 @@ public class StickyScrollView extends ScrollView {
         // 当一个View显示sticky的时候，让它不被看到，防止和一些alpha值比较低的时候引起的界面显示重叠问题
         final int stickyViewsSize = stickyViews.size();
         for (int i = 0; i < stickyViewsSize; i++) {
-            if (viewThatShouldStick.equals(stickyViews.get(i))) {
+            if (i <= stickyViews.indexOf(viewThatShouldStick)) {
                 stickyViews.get(i).setAlpha(0);
             } else {
                 stickyViews.get(i).setAlpha(alphaList.get(i));

@@ -4,8 +4,7 @@
 
 
 #####这个库修复了emilsjolander/StickyScrollViewItems里，让TabLayout悬浮以及其他附带动画效果
-的View悬浮产生的动画不流畅的问题（默认3秒以内，若是动画时间过长，请自行调用setRunnableRecycleT
-ime方法设定自动刷新时间），并且还提供了列表形式的Sticky显示。</br></br>
+的View悬浮产生的动画不流畅的问题（默认1秒以内，若是动画时间过长，请自行调用setRunnableRecycleTime方法设定自动刷新时间），并且还提供了列表形式的Sticky显示。</br></br>
 
 #####工程默认显示是列表形式的，可以在xml中指定 
  </br>
@@ -96,4 +95,21 @@ dependencies {
 
 之后，您对应Tag的View就能在您的View可以悬停的时候开始悬停工作
 
+注意：你也可以通过addView方法来添加需要悬停的View，同样，也需要设置tag为sticky即可
 
+
+版本更新：
+V1.1.6
+修复了在某些情况下可能会出现的空制针导致崩溃的问题
+
+V1.1.6
+修改了StickyScrollView默认自动刷新时间为1s以减少内存的开销（之前版本是3s），如有特殊需求，依旧可以使用setRunnableRecycleTime方法自行设定。
+新增setHideStickyView方法，可以自行控制悬停的View是否要隐藏（通常只会出现在悬停View附带Alpha值的情况下）
+
+V1.1.5
+基于emilsjolander/StickyScrollViewItems库进行的修复原有bug和新增功能，发布了V1.1.5版本，主要功能是提供悬停的StickyScrollView
+主要修复/新增内容：
+修复了emilsjolander/StickyScrollViewItems库中，嵌套TabLayout时出现的用户点击动画不流畅的问题。
+修复了emilsjolander/StickyScrollViewItems库中，包含带Alpha的View出现的Alpha值不正确的问题。
+
+新增列表形式的悬停方式。

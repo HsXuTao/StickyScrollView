@@ -3,12 +3,13 @@ package com.taoxu.library;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.RectF;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.IntDef;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -245,7 +246,7 @@ public class StickyScrollView extends ScrollView {
     }
 
     StickyRunnable runnable;
-    int mRecycleTime = 3000;
+    int mRecycleTime = 1000;
 
     private class StickyRunnable implements Runnable {
         int time = 0;
@@ -254,9 +255,11 @@ public class StickyScrollView extends ScrollView {
         public void run() {
             // 防止一直循环浪费内存
             if (time < mRecycleTime) {
-                getHandler().removeCallbacks(this);
-                getHandler().postDelayed(this, 16);
-                invalidate();
+                if (getHandler() != null) {
+                    getHandler().removeCallbacks(this);
+                    getHandler().postDelayed(this, 16);
+                    postInvalidate();
+                }
                 time = time + 16;
             } else {
                 return;
@@ -377,6 +380,9 @@ public class StickyScrollView extends ScrollView {
                 canvas.clipRect(0, (clippingToPadding ? -stickyViewTopOffset : 0), getWidth(), currentItem.getHeight());
                 canvas.translate(-currentItem.getScrollX(), -currentItem.getScrollY());
                 Drawable background = currentItem.getBackground();
+                if(background==null){
+                    background = new ColorDrawable(Color.TRANSPARENT);
+                }
                 background.draw(canvas);
                 currentItem.draw(canvas);
                 canvas.restore();
@@ -588,6 +594,12 @@ public class StickyScrollView extends ScrollView {
         }
     }
 
+    private boolean hideStickyView = true;
+
+    public void setHideStickyView(boolean hideStickyView) {
+        this.hideStickyView = hideStickyView;
+    }
+
     private List<Float> alphaList = new ArrayList<>();
 
     private void startStickingView(View viewThatShouldStick) {
@@ -595,7 +607,11 @@ public class StickyScrollView extends ScrollView {
         final int stickyViewsSize = stickyViews.size();
         for (int i = 0; i < stickyViewsSize; i++) {
             if (i <= stickyViews.indexOf(viewThatShouldStick)) {
-                stickyViews.get(i).setAlpha(0);
+                if (hideStickyView) {
+                    stickyViews.get(i).setAlpha(0);
+                } else {
+                    stickyViews.get(i).setAlpha(alphaList.get(i));
+                }
             } else {
                 stickyViews.get(i).setAlpha(alphaList.get(i));
             }

@@ -1,4 +1,11 @@
 # StickyScrollView
+
+</br>
+
+[![](https://jitpack.io/v/HsXuTao/StickyScrollView.svg)](https://jitpack.io/#HsXuTao/StickyScrollView)
+
+</br>
+
 #### 相信大家都知道有很多让ListView分组Header浮动悬停的开源控件，比如：StickyListHeaders、pinned-section-listview,而本项目就是要在ScrollView中实现类似的功能。StickyScrollView 是一个让ScrollView同样支持浮动悬停的控件(该控件支持android2.2(api level 8)及以上的版本)。
 </br>
 
@@ -45,7 +52,7 @@ allprojects {
 2：在你的工程里，加入
 ```java
 dependencies {
-    compile 'com.github.HsXuTao:StickyScrollView:V1.1.5'
+    compile 'com.github.HsXuTao:StickyScrollView:V1.1.6'
 }
 ```
 

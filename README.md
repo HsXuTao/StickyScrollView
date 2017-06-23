@@ -115,14 +115,25 @@ dependencies {
 
 版本更新：
 
+</br>
+
 V1.1.6
+
+</br>
+
 修复了在某些情况下可能会出现的空制针导致崩溃的问题
 
 V1.1.6
+
+</br>
+
 修改了StickyScrollView默认自动刷新时间为1s以减少内存的开销（之前版本是3s），如有特殊需求，依旧可以使用setRunnableRecycleTime方法自行设定。
 新增setHideStickyView方法，可以自行控制悬停的View是否要隐藏（通常只会出现在悬停View附带Alpha值的情况下）
 
 V1.1.5
+
+</br>
+
 基于emilsjolander/StickyScrollViewItems库进行的修复原有bug和新增功能，发布了V1.1.5版本，主要功能是提供悬停的StickyScrollView
 主要修复/新增内容：
 修复了emilsjolander/StickyScrollViewItems库中，嵌套TabLayout时出现的用户点击动画不流畅的问题。

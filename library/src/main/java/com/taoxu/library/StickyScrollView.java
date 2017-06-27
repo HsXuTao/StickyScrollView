@@ -246,10 +246,10 @@ public class StickyScrollView extends ScrollView {
     }
 
     StickyRunnable runnable;
-    int mRecycleTime = 1000;
+    int mRecycleTime = 500;
 
     private class StickyRunnable implements Runnable {
-        int time = 0;
+        private int time = 0;
 
         @Override
         public void run() {
@@ -264,6 +264,11 @@ public class StickyScrollView extends ScrollView {
             } else {
                 return;
             }
+        }
+
+        public void start() {
+            time = 0;
+            run();
         }
 
     }
@@ -296,10 +301,8 @@ public class StickyScrollView extends ScrollView {
 
         if (runnable == null) {
             runnable = new StickyRunnable();
-        } else {
-            runnable.time = 0;
         }
-        runnable.run();
+        runnable.start();
     }
 
     @Override
@@ -323,12 +326,8 @@ public class StickyScrollView extends ScrollView {
 //            canvas.save();
             RectF bounds = new RectF(canvas.getClipBounds());
             canvas.saveLayerAlpha(bounds.left, bounds.top, bounds.right, bounds.bottom, (int) (Math.min(255, Math.max(0, alphaList.get(stickyViews.indexOf(currentlyStickingView)) * 255f))), Canvas.ALL_SAVE_FLAG);
-
             canvas.translate(getPaddingLeft() + stickyViewLeftOffset, getScrollY() + stickyViewTopOffset + (clippingToPadding ? getPaddingTop() : 0));
-
-            canvas.clipRect(0, (clippingToPadding ? -stickyViewTopOffset : 0),
-                    getWidth() - stickyViewLeftOffset,
-                    currentlyStickingView.getHeight() + mShadowHeight + 1);
+            canvas.clipRect(0, (clippingToPadding ? -stickyViewTopOffset : 0), getWidth() - stickyViewLeftOffset, currentlyStickingView.getHeight() + mShadowHeight + 1);
 
             if (mShadowDrawable != null) {
                 int left = 0;
@@ -355,19 +354,19 @@ public class StickyScrollView extends ScrollView {
     }
 
     public void drawArrayLayout(Canvas canvas) {
-        int index = stickyViews.indexOf(currentlyStickingView);
+        final int index = stickyViews.indexOf(currentlyStickingView);
+        RectF bounds = null;
         for (int i = 0; i <= index; i++) {
             View currentItem = stickyViews.get(i);
             if (currentItem != null) {
 //                canvas.save();
-
-                RectF bounds = new RectF(canvas.getClipBounds());
-                canvas.saveLayerAlpha(bounds.left, bounds.top, bounds.right, bounds.bottom, (int) (Math.min(255, Math.max(0, alphaList.get(i) * 255f))), Canvas.ALL_SAVE_FLAG);
+                if (bounds == null) {
+                    bounds = new RectF(canvas.getClipBounds());
+                }
+                canvas.saveLayerAlpha(bounds.left, bounds.top, bounds.right, bounds.bottom, (int) (Math.min(255, Math.max(0, alphaList.get(i) * 255f))), Canvas.CLIP_TO_LAYER_SAVE_FLAG);
                 canvas.translate(getPaddingLeft() + stickyViewLeftOffset, getScrollY() + stickyViewTopOffset + (clippingToPadding ? getPaddingTop() : 0) + sumList.get(i));
 
-                canvas.clipRect(0, (clippingToPadding ? -stickyViewTopOffset : 0),
-                        getWidth(),
-                        currentItem.getHeight() + mShadowHeight + 1);
+                canvas.clipRect(0, (clippingToPadding ? -stickyViewTopOffset : 0), getWidth(), currentItem.getHeight() + mShadowHeight + 1);
                 if (mShadowDrawable != null) {
                     int left = 0;
                     int right = currentItem.getWidth();
@@ -380,7 +379,7 @@ public class StickyScrollView extends ScrollView {
                 canvas.clipRect(0, (clippingToPadding ? -stickyViewTopOffset : 0), getWidth(), currentItem.getHeight());
                 canvas.translate(-currentItem.getScrollX(), -currentItem.getScrollY());
                 Drawable background = currentItem.getBackground();
-                if(background==null){
+                if (background == null) {
                     background = new ColorDrawable(Color.TRANSPARENT);
                 }
                 background.draw(canvas);

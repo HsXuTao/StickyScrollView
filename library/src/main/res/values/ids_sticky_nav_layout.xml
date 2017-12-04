@@ -10,6 +10,7 @@
         <attr name="stuckShadowHeight" format="dimension"/>
         <attr name="stuckShadowDrawable" format="reference"/>
         <attr name="mode" format="integer"/>
+        <attr name="recycleTime" format="integer"/>
     </declare-styleable>
     <integer name="integer_sticky_normalMode">0</integer>
     <integer name="integer_sticky_arrayMode">1</integer>

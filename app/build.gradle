@@ -18,11 +18,17 @@ android {
         }
     }
 }
+repositories {
+    maven {
+        url "http://maven.aliyun.com/nexus/content/repositories/releases"
+    }
+}
 
 dependencies {
     compile project(':library')
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:24.2.1'
-    compile 'com.android.support:design:25.1.1'
+    compile 'com.android.support:design:+'
+    compile 'com.aliyun.ams:alicloud-android-hotfix:+'
 }

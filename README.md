@@ -117,11 +117,13 @@ dependencies {
 
 </br>
 
-V1.1.6
+V1.1.7
 
 </br>
 
 修复了在某些情况下可能会出现的空制针导致崩溃的问题
+修复了在Andorid5.0以下机型List方式绘制有问题的情况
+新增xml设置recycleTime，方式同设置mode
 
 V1.1.6
 
@@ -140,3 +142,5 @@ V1.1.5
 修复了emilsjolander/StickyScrollViewItems库中，包含带Alpha的View出现的Alpha值不正确的问题。
 
 新增列表形式的悬停方式。
+
+//需要添加一个背景List，方便用户可以自行设定悬停后的背景颜色
